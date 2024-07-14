@@ -10,7 +10,7 @@ servers:
 paths:
   /:
     get:
-      summary: Get reviews
+      summary: Get reviews by id
       description: Get the reviews for the specified sitting spot
       operationId: getReviews
       parameters:
@@ -34,14 +34,19 @@ paths:
           
 
     post:
-      summary: Post a new review
+      summary: Post review for id
       description: create a new review for an existing sitting spot
       operationId: postReview
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Review'
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                review:                  
+                  $ref: '#/components/schemas/Review'
         required: true
       responses:
         201:
@@ -71,7 +76,7 @@ components:
         id:
           type: string
           format: uuid
-        result:
+        reviews:
           type: array
           items:
             type: string
