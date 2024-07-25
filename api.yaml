@@ -37,14 +37,19 @@ paths:
       summary: Post review for id
       description: create a new review for an existing sitting spot
       operationId: postReview
+      parameters:
+        - name: reviewId
+          in: query
+          description: unique id of the sitting spot
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           application/json:
             schema:
               properties:
-                id:
-                  type: string
-                  format: uuid
                 review:                  
                   $ref: '#/components/schemas/Review'
         required: true
