@@ -14,16 +14,16 @@ import lombok.Setter;
 public class Review{
     @Id
     @Column(name = "id", nullable = false)
-    private UUID reviewId;
+    private String reviewId;
 
     @Column(name = "sitting_spot_id", nullable = false)
-    private UUID sittingSpotId;
+    private String sittingSpotId;
 
     @Column(name = "corpus", nullable = false)
     private String corpus;
 
-    public Review(UUID sittingSpotId, String corpus){      
-        this.reviewId = UUID.randomUUID();
+    public Review(String sittingSpotId, String corpus){      
+        this.reviewId = UUID.randomUUID().toString();
         this.sittingSpotId=sittingSpotId;
         this.corpus=corpus;
     }
@@ -32,12 +32,12 @@ public class Review{
         return this.corpus;
     }
 
-    public UUID sittingSpotId(){
+    public String sittingSpotId(){
         return this.sittingSpotId;
     }
 
     public void generateId(){
-        this.reviewId = UUID.randomUUID();
+        this.reviewId = UUID.randomUUID().toString();
     }
 
     public void print(){

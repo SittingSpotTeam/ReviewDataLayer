@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ClientHttpResponse;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,12 @@ public class ReviewDataLayerController {
     private ReviewDataLayerRepository reviewDataLayerRepository;
 
     @GetMapping
-    public List<Review> getReviews(@RequestParam("id") UUID id){
+    public List<Review> getReviews(@RequestParam("id") String id){
         return reviewDataLayerRepository.findBySittingSpotId(id);
     }
 
     @PostMapping
-    public void postReview(@RequestBody Review review){
+    public Review postReview(@RequestBody Review review){
         review.generateId();
         Review rev = reviewDataLayerRepository.checkReviewExistance(review.sittingSpotId(), review.corpus());
         System.out.println(rev);
@@ -38,6 +39,10 @@ public class ReviewDataLayerController {
         if(rev==null){
             System.out.println("Review not found: saving");
             reviewDataLayerRepository.save(review);
+            return review;
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Sitting spot already exists");
         }
         // reviewDataLayerRepository.save(new Review(UUID.fromString("36797d2f-fbd2-466c-8b80-cb94864be30f"), "Horrible and noisy"));
         // reviewDataLayerRepository.save(new Review(UUID.fromString("46797d2f-fbd2-466c-8b80-cb94864be30f"), "very bad"));
