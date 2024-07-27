@@ -5,11 +5,17 @@ import com.sittingspot.reviewdatalayer.models.*;
 import java.util.*;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface ReviewDataLayerRepository extends JpaRepositoryImplementation<Review, Review>{
+public interface ReviewDataLayerRepository extends JpaRepository<Review, UUID>{
     
-    @Query(value="SELECT * FROM reviews r WHERE r.sittingSpotId=id")
-    public List<Review> findReviewById(@Param("id") UUID id);
+    @Query("SELECT r FROM Review r WHERE r.reviewId = :reviewId")
+    List<Review> findReviewById(@Param("reviewId") UUID reviewId);
+    
+    @Query("SELECT r FROM Review r WHERE r.sittingSpotId = :sittingSpotId")
+    List<Review> findBySittingSpotId(UUID sittingSpotId);
+
+    @Query("SELECT r FROM Review r WHERE r.sittingSpotId = :sittingSpotId AND r.corpus = :corpus")
+    Review checkReviewExistance(@Param("sittingSpotId") UUID sittingSpotId, @Param("corpus") String corpus);
 }
