@@ -10,9 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReviewDataLayerRepository extends JpaRepository<Review, UUID>{
     
-    @Query("SELECT r FROM Review r WHERE r.reviewId = :reviewId")
-    List<Review> findReviewById(@Param("reviewId") String reviewId);
-    
     @Query("SELECT r FROM Review r WHERE r.sittingSpotId = :sittingSpotId")
     List<Review> findBySittingSpotId(String sittingSpotId);
 

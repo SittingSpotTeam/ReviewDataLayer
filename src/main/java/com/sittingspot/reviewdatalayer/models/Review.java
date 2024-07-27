@@ -10,20 +10,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@IdClass(ReviewId.class)
 @Table(name = "reviews")
 public class Review{
-    @Id
-    @Column(name = "id", nullable = false)
-    private String reviewId;
 
-    @Column(name = "sitting_spot_id", nullable = false)
+    @Id
+    @Column(nullable = false)
     private String sittingSpotId;
 
-    @Column(name = "corpus", nullable = false)
+    @Id
+    @Column(nullable = false)
     private String corpus;
 
     public Review(String sittingSpotId, String corpus){      
-        this.reviewId = UUID.randomUUID().toString();
         this.sittingSpotId=sittingSpotId;
         this.corpus=corpus;
     }
@@ -36,12 +35,7 @@ public class Review{
         return this.sittingSpotId;
     }
 
-    public void generateId(){
-        this.reviewId = UUID.randomUUID().toString();
-    }
-
     public void print(){
-        System.out.println("reviewId:"+this.reviewId);
         System.out.println("sittingSpotId:"+this.sittingSpotId);
         System.out.println("corpus:"+this.corpus);
     }
